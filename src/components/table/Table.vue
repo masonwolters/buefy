@@ -9,6 +9,7 @@
         />
 
         <div class="table-wrapper">
+            <slot v-if="$slots.tableHeader" name="tableHeader" />
             <table
                 class="table"
                 :class="tableClasses"
