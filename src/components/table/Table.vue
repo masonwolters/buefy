@@ -1,5 +1,8 @@
 <template>
-    <div class="b-table" :class="{ 'is-loading': loading }">
+    <div class="b-table" :class="{ 
+        'is-loading': loading,
+        'b-table--paginated': paginated,
+    }">
         <b-table-mobile-sort
             v-if="mobileCards && hasSortablenewColumns"
             :current-sort-column="currentSortColumn"

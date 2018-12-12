@@ -8888,6 +8888,9 @@ var _components;
 //
 //
 //
+//
+//
+//
 
 
 
@@ -9869,7 +9872,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "b-table",
     class: {
-      'is-loading': _vm.loading
+      'is-loading': _vm.loading,
+      'b-table--paginated': _vm.paginated,
     }
   }, [(_vm.mobileCards && _vm.hasSortablenewColumns) ? _c('b-table-mobile-sort', {
     attrs: {
