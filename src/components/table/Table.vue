@@ -2,6 +2,7 @@
     <div class="b-table" :class="{ 
         'is-loading': loading,
         'b-table--paginated': paginated,
+        'b-table--checkable': checkable,
     }">
         <b-table-mobile-sort
             v-if="mobileCards && hasSortablenewColumns"
