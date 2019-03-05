@@ -2766,7 +2766,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         keepFirst: Boolean,
         clearOnSelect: Boolean,
-        openOnFocus: Boolean
+        openOnFocus: Boolean,
+        selectedIndex: Number
     },
     data: function data() {
         return {
@@ -2907,6 +2908,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.keepFirst) {
                 this.selectFirstOption(value);
             }
+        },
+        selectedIndex: function selectedIndex(index) {
+            this.setHovered(this.data[index]);
+            this.scrollToIndex(index);
         }
     },
     methods: {
@@ -2949,10 +2954,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             this.$nextTick(function () {
-                if (options.length) {
+                var index = _this3.selectedIndex || 0;
+                if (options.length > index) {
                     // If has visible data or open on focus, keep updating the hovered
-                    if (_this3.openOnFocus || _this3.newValue !== '' && _this3.hovered !== options[0]) {
-                        _this3.setHovered(options[0]);
+                    if (_this3.openOnFocus || _this3.newValue !== '' && _this3.hovered !== options[index]) {
+                        _this3.setHovered(options[index]);
                     }
                 } else {
                     _this3.setHovered(null);
@@ -3045,22 +3051,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 index = index < 0 ? 0 : index;
 
                 this.setHovered(this.data[index]);
-
-                var list = this.$refs.dropdown.querySelector('.dropdown-content');
-                var element = list.querySelectorAll('.dropdown-item:not(.is-disabled)')[index];
-
-                if (!element) return;
-
-                var visMin = list.scrollTop;
-                var visMax = list.scrollTop + list.clientHeight - element.clientHeight;
-
-                if (element.offsetTop < visMin) {
-                    list.scrollTop = element.offsetTop;
-                } else if (element.offsetTop >= visMax) {
-                    list.scrollTop = element.offsetTop - list.clientHeight + element.clientHeight;
-                }
+                this.scrollToIndex(index);
             } else {
                 this.isActive = true;
+            }
+        },
+        scrollToIndex: function scrollToIndex(index) {
+            var list = this.$refs.dropdown.querySelector('.dropdown-content');
+            var element = list.querySelectorAll('.dropdown-item:not(.is-disabled)')[index];
+
+            if (!element) return;
+
+            var visMin = list.scrollTop;
+            var visMax = list.scrollTop + list.clientHeight - element.clientHeight;
+
+            if (element.offsetTop < visMin) {
+                list.scrollTop = element.offsetTop;
+            } else if (element.offsetTop >= visMax) {
+                list.scrollTop = element.offsetTop - list.clientHeight + element.clientHeight;
             }
         },
 

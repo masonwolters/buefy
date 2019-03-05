@@ -82,7 +82,8 @@
             },
             keepFirst: Boolean,
             clearOnSelect: Boolean,
-            openOnFocus: Boolean
+            openOnFocus: Boolean,
+            selectedIndex: Number
         },
         data() {
             return {
@@ -191,6 +192,11 @@
                 if (this.keepFirst) {
                     this.selectFirstOption(value)
                 }
+            },
+
+            selectedIndex(index) {
+                this.setHovered(this.data[index])
+                this.scrollToIndex(index)
             }
         },
         methods: {
@@ -223,10 +229,11 @@
              */
             selectFirstOption(options) {
                 this.$nextTick(() => {
-                    if (options.length) {
+                    let index = this.selectedIndex || 0
+                    if (options.length > index) {
                         // If has visible data or open on focus, keep updating the hovered
-                        if (this.openOnFocus || (this.newValue !== '' && this.hovered !== options[0])) {
-                            this.setHovered(options[0])
+                        if (this.openOnFocus || (this.newValue !== '' && this.hovered !== options[index])) {
+                            this.setHovered(options[index])
                         }
                     } else {
                         this.setHovered(null)
@@ -319,26 +326,29 @@
                     index = index < 0 ? 0 : index
 
                     this.setHovered(this.data[index])
-
-                    const list = this.$refs.dropdown.querySelector('.dropdown-content')
-                    const element = list.querySelectorAll('.dropdown-item:not(.is-disabled)')[index]
-
-                    if (!element) return
-
-                    const visMin = list.scrollTop
-                    const visMax = list.scrollTop + list.clientHeight - element.clientHeight
-
-                    if (element.offsetTop < visMin) {
-                        list.scrollTop = element.offsetTop
-                    } else if (element.offsetTop >= visMax) {
-                        list.scrollTop = (
-                            element.offsetTop -
-                            list.clientHeight +
-                            element.clientHeight
-                        )
-                    }
+                    this.scrollToIndex(index)
                 } else {
                     this.isActive = true
+                }
+            },
+
+            scrollToIndex(index) {
+                const list = this.$refs.dropdown.querySelector('.dropdown-content')
+                const element = list.querySelectorAll('.dropdown-item:not(.is-disabled)')[index]
+
+                if (!element) return
+
+                const visMin = list.scrollTop
+                const visMax = list.scrollTop + list.clientHeight - element.clientHeight
+
+                if (element.offsetTop < visMin) {
+                    list.scrollTop = element.offsetTop
+                } else if (element.offsetTop >= visMax) {
+                    list.scrollTop = (
+                        element.offsetTop -
+                        list.clientHeight +
+                        element.clientHeight
+                    )
                 }
             },
 
