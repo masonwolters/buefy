@@ -2910,8 +2910,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         selectedIndex: function selectedIndex(index) {
-            this.setHovered(this.data[index]);
-            this.scrollToIndex(index);
+            var _this2 = this;
+
+            this.$nextTick(function () {
+                _this2.setHovered(_this2.data[index]);
+                _this2.scrollToIndex(index);
+            });
         }
     },
     methods: {
@@ -2930,7 +2934,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * update input value and close dropdown.
          */
         setSelected: function setSelected(option) {
-            var _this2 = this;
+            var _this3 = this;
 
             var closeDropdown = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
@@ -2942,7 +2946,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.newValue = this.clearOnSelect ? '' : this.getValue(this.selected);
             }
             closeDropdown && this.$nextTick(function () {
-                _this2.isActive = false;
+                _this3.isActive = false;
             });
         },
 
@@ -2951,17 +2955,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * Select first option
          */
         selectFirstOption: function selectFirstOption(options) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.$nextTick(function () {
-                var index = _this3.selectedIndex || 0;
+                var index = _this4.selectedIndex || 0;
                 if (options.length > index) {
                     // If has visible data or open on focus, keep updating the hovered
-                    if (_this3.openOnFocus || _this3.newValue !== '' && _this3.hovered !== options[index]) {
-                        _this3.setHovered(options[index]);
+                    if (_this4.openOnFocus || _this4.newValue !== '' && _this4.hovered !== options[index]) {
+                        _this4.setHovered(options[index]);
                     }
                 } else {
-                    _this3.setHovered(null);
+                    _this4.setHovered(null);
                 }
             });
         },
@@ -3023,18 +3027,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          * otherwise it is openened upwards.
          */
         calcDropdownInViewportVertical: function calcDropdownInViewportVertical() {
-            var _this4 = this;
+            var _this5 = this;
 
             this.$nextTick(function () {
                 /**
                  * this.$refs.dropdown may be undefined
                  * when Autocomplete is conditional rendered
                  */
-                if (_this4.$refs.dropdown === undefined) return;
+                if (_this5.$refs.dropdown === undefined) return;
 
-                var rect = _this4.$refs.dropdown.getBoundingClientRect();
+                var rect = _this5.$refs.dropdown.getBoundingClientRect();
 
-                _this4.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+                _this5.isListInViewportVertically = rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
             });
         },
 

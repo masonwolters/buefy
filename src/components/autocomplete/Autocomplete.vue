@@ -195,8 +195,10 @@
             },
 
             selectedIndex(index) {
-                this.setHovered(this.data[index])
-                this.scrollToIndex(index)
+                this.$nextTick(() => {
+                    this.setHovered(this.data[index])
+                    this.scrollToIndex(index)
+                })
             }
         },
         methods: {
